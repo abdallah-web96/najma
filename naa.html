@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar ❤️ Najma</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Poppins,sans-serif;
+  background:#0f0c0a;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* 🔐 LOCK SCREEN */
+#lockScreen{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.98);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
+
+#lockScreen h1{
+  font-family:Cinzel;
+  color:#f5d78e;
+  margin-bottom:20px;
+}
+
+#lockScreen input{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  text-align:center;
+}
+
+#lockScreen button{
+  margin-top:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#f5d78e;
+  cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+  url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop') center/cover;
+}
+
+.glass{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:24px;
+  padding:35px;
+  transition:0.4s;
+}
+
+.glass:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 40px rgba(255,215,161,0.2);
+}
+
+h1{
+  font-family:Cinzel,serif;
+  font-size:4rem;
+  color:#f5d78e;
+}
+
+.subtitle{font-size:1.2rem;margin:15px 0}
+.date{color:#ffd7a1}
+
+section{padding:80px 10%}
+
+.section-title{
+  font-family:Cinzel,serif;
+  text-align:center;
+  margin-bottom:30px;
+  color:#f5d78e;
+}
+
+.card{max-width:900px;margin:auto}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.gallery img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:18px;
+  transition:.4s;
+}
+
+.gallery img:hover{transform:scale(1.05)}
+
+.reasons{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.reason{
+  padding:20px;
+  border-radius:18px;
+  background:rgba(212, 3, 3, 0.08);
+}
+
+.timeline{max-width:800px;margin:auto}
+
+.step{
+  margin:20px 0;
+  padding:20px;
+  border-left:3px solid #f5d78e;
+  background:rgba(255,255,255,.05);
+}
+
+.countdown{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.box{
+  min-width:100px;
+  padding:20px;
+  border-radius:16px;
+  background:rgba(171, 63, 63, 0.08);
+  text-align:center;
+}
+
+footer{text-align:center;padding:30px;background:#140f0b}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  color:#be204f;
+  animation:float 8s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-120px);opacity:0}
+}
+
+/* REVEAL */
+.reveal{
+  opacity:0;
+  transform:translateY(60px) scale(0.98);
+  transition:1.2s ease;
+  filter:blur(5px);
+}
+
+.reveal.show{
+  opacity:1;
+  transform:none;
+  filter:blur(0);
+}
+
+/* MUSIC BUTTON */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:12px 18px;
+  border-radius:50px;
+  border:none;
+  background:rgba(255,215,161,0.2);
+  color:#fff;
+  backdrop-filter:blur(10px);
+  cursor:pointer;
+  z-index:9999;
+  transition:0.3s;
+}
+
+.music-btn:hover{
+  transform:scale(1.1);
+  background:rgba(255,215,161,0.4);
+}
+
+/* HIDE MAIN INITIALLY */
+#mainContent{
+  display:none;
+}
+
+@media(max-width:768px){
+  h1{font-size:2.5rem}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 LOCK SCREEN -->
+<div id="lockScreen">
+  <h1>🔐 Enter Secret Code</h1>
+  <input id="code" type="password" placeholder="Enter password">
+  <button onclick="unlock()">Unlock 💍</button>
+</div>
+
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8a1c6b6c2.mp3">
+</audio>
+
+<button id="musicBtn" class="music-btn">🎵 Play Music</button>
+
+<!-- 💍 MAIN CONTENT -->
+<div id="mainContent">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glass">
+    <h1>Najma ❤️ Omar</h1>
+    <p class="subtitle">A Beautiful Journey Begins Forever</p>
+    <p class="date">Wedding Celebration</p>
+  </div>
+</section>
+
+<!-- LOVE LETTER -->
+<section class="reveal">
+<h2 class="section-title">Love Letter</h2>
+<div class="glass card">
+<p>My beloved Omar, thank you for your love, kindness, and support. May Allah bless our journey with endless happiness and peace. ❤️</p>
+</div>
+</section>
+
+<!-- MEMORIES -->
+<section class="reveal">
+<h2 class="section-title">Memories</h2>
+<div class="gallery">
+<img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf">
+<img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc">
+<img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8">
+</div>
+</section>
+
+<!-- REASONS -->
+<section class="reveal">
+<h2 class="section-title">Reasons I Love You</h2>
+<div class="reasons">
+<div class="reason">Your kindness and compassion.</div>
+<div class="reason">You always support me.</div>
+<div class="reason">Your honesty and respect.</div>
+<div class="reason">You make my life brighter.</div>
+</div>
+</section>
+
+<!-- STORY -->
+<section class="reveal">
+<h2 class="section-title">Our Love Story</h2>
+<div class="timeline">
+<div class="glass">💫 First Meeting</div>
+<div class="glass">🤝 Friendship</div>
+<div class="glass">💍 Engagement</div>
+<div class="glass">❤️ Wedding Day</div>
+<div class="glass">🌹 Forever Together</div>
+</div>
+</section>
+
+<section class="reveal">
+<h2 class="section-title">Future Goals</h2>
+<div class="grid">
+  <div class="glass">Build a beautiful family 👨‍👩‍👧</div>
+  <div class="glass">Travel the world 🌍</div>
+  <div class="glass">Support each other’s dreams 💫</div>
+  <div class="glass">Grow old together ❤️</div>
+</div>
+</section>
+
+<section class="reveal">
+<h2 class="section-title">Wedding Dua</h2>
+<div class="glass">May Allah bless our marriage with love, mercy, and happiness. Ameen 🤍</div>
+</section>
+
+<footer>Made with Love for Omar by Najma ❤️</footer>
+
+</div>
+
+<script>
+
+/* 🔐 UNLOCK SYSTEM */
+function unlock(){
+  const code = document.getElementById("code").value;
+
+  if(code === "12345"){
+    document.getElementById("lockScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+    document.body.style.overflow="auto";
+
+    startExperience();
+  } else {
+    alert("Wrong password 💔");
+  }
+}
+
+/* 💍 START EFFECTS AFTER UNLOCK */
+function startExperience(){
+  startHearts();
+  startMusic();
+  observeReveal();
+  countdown();
+}
+
+/* 💖 HEARTS */
+function startHearts(){
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+  },700);
+}
+
+/* 🎵 MUSIC */
+const music=document.getElementById("bgMusic");
+const btn=document.getElementById("musicBtn");
+
+btn.onclick=()=>{
+  music.play();
+}
+
+/* FADE IN MUSIC */
+function startMusic(){
+  music.volume=0;
+  music.play();
+
+  let v=0;
+  let fade=setInterval(()=>{
+    if(v<1){
+      v+=0.05;
+      music.volume=v;
+    } else clearInterval(fade);
+  },200);
+}
+
+/* 🌟 REVEAL */
+function observeReveal(){
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add("show");
+    });
+  });
+
+  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+}
+
+/* ⏳ COUNTDOWN */
+function countdown(){
+  const target = new Date("2026-12-31T00:00:00").getTime();
+
+  setInterval(()=>{
+    const now = new Date().getTime();
+    const d = target - now;
+
+    document.getElementById("days").innerText=Math.max(0,Math.floor(d/86400000));
+    document.getElementById("hours").innerText=Math.max(0,Math.floor((d%86400000)/3600000));
+    document.getElementById("mins").innerText=Math.max(0,Math.floor((d%3600000)/60000));
+    document.getElementById("secs").innerText=Math.max(0,Math.floor((d%60000)/1000));
+  },1000);
+}
+
+</script>
+
+</body>
+</html>
